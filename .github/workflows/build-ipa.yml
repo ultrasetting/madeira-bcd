@@ -1530,6 +1530,11 @@ jobs:
       - name: Check fex-ec-ret-direct
         run: python3 tests/host/check-fex-ec-ret-direct.py
 
+      # madeira-bcd: the full code validator only in the programs MADEIRA_FULL_SMC_EXE names, and a
+      # code invalidation re-entered by its own writer runs under that hold (MADEIRA_FEX_INVAL_NESTED=1).
+      - name: Check fex-full-smc-exe and inval-nested
+        run: python3 tests/host/check-fex-full-smc-exe.py
+
       # madeira-bcd: FEX_MADEIRA_HOSTPROBE also reports LSE2, LRCPC3, FRINTTS, RPRES, CSSC, MOPS,
       # ECV and WFXT; FEX's parsers must keep reading every key exactly as published.
       - name: Check FEX host probe
@@ -1644,6 +1649,10 @@ jobs:
               raise SystemExit('Required ARM64EC lean JIT exit module was not built; refusing the fallback IPA')
           if b'ec-ret-direct-v1 madeira-bcd' not in module:
               raise SystemExit('Required ARM64EC direct return module was not built; refusing the fallback IPA')
+          if b'full-smc-exe-v1 madeira-bcd' not in module:
+              raise SystemExit('Required ARM64EC per-program full SMC module was not built; refusing the fallback IPA')
+          if b'[inval-nested] madeira-bcd' not in module or b'[smc-changed] madeira-bcd' not in module:
+              raise SystemExit('Required ARM64EC nested invalidation module was not built; refusing the fallback IPA')
           print('ARM64EC rpmalloc: span4 build marker verified')
           PYEOF
           # Verify the linked x64 entries; never silently ship a fallback DLL

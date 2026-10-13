@@ -403,13 +403,33 @@ enum GameRecommendations {
         """,
         avx: false, nvidia: false, wineVCRT: false, fastSync: true, display: "fit")
 
-    static let all = [rdr2Steam, gta5EnhancedSteam, gta5EnhancedOther, ghostOfTsushima, godOfWar, horizonZeroDawn]
+    /// Stardew Valley (Steam, or its program anywhere), still being brought up:
+    /// the list for the stardew-fix build's test (2026-10-12). The game is .NET:
+    /// .NET rewrites a method's entry stub once the method is compiled, FEX kept
+    /// running its compiled copy of the old stub, and the game spun in .NET's
+    /// PreStubWorker before its first frame (all four logs). FEX's full code
+    /// validator broke that loop, then parked the main thread on the code
+    /// invalidation lock it already held. So: the full validator in the game's
+    /// own process only (not Steam's), and an invalidation re-entered by the
+    /// lock's own holder runs under that hold. Tested on an iPhone 14 Pro.
+    static let stardewValley = GameRecommendation(
+        id: "stardew-valley", title: "Stardew Valley", version: 1,
+        config: """
+        # Madeira's recommended settings for Stardew Valley.
+        # Reset to Recommended, at the bottom of the game's settings, brings them back.
+        env.MADEIRA_FULL_SMC_EXE = Stardew Valley.exe
+        env.MADEIRA_FEX_INVAL_NESTED = 1
+        """,
+        display: "fit")
+
+    static let all = [rdr2Steam, gta5EnhancedSteam, gta5EnhancedOther, ghostOfTsushima, godOfWar, horizonZeroDawn,
+                      stardewValley]
 
     // MARK: Recognising a game
 
     /// Steam App IDs.
     static let rdr2AppID = 1174180, gta5EnhancedAppID = 3240220, ghostAppID = 2215430, godOfWarAppID = 1593500,
-               horizonZeroDawnAppID = 1151640
+               horizonZeroDawnAppID = 1151640, stardewValleyAppID = 413150
 
     /// The recommendation for a game, or nil.
     /// - windowsPath: a program ("C:\Games\GoW\GoW.exe"), or a library Steam
@@ -430,6 +450,7 @@ enum GameRecommendations {
             if steamAppID == ghostAppID { return ghostOfTsushima }
             if steamAppID == godOfWarAppID { return godOfWar }
             if steamAppID == horizonZeroDawnAppID { return horizonZeroDawn }
+            if steamAppID == stardewValleyAppID || installFolder == "stardew valley" { return stardewValley }
             return nil
         }
         // A program, wherever it was installed: only the game's own programs, so a
@@ -450,6 +471,8 @@ enum GameRecommendations {
             return godOfWar
         case "horizonzerodawn.exe":
             return horizonZeroDawn
+        case "stardew valley.exe":
+            return stardewValley
         default:
             return nil
         }

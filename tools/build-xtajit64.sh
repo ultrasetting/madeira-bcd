@@ -189,6 +189,12 @@ python3 "$R/tools/patch-fex-ios-ec-bitmap-cache.py" "$R/FEX"
 python3 "$R/tools/patch-fex-ios-ec-exit-lean.py" "$R/FEX"
 python3 "$R/tools/patch-fex-ios-alias-xlate-bounds.py" "$R/FEX"
 python3 "$R/tools/patch-fex-ios-ec-ret-direct.py" "$R/FEX"
+# Opt-in per game: the full code validator only in the programs
+# MADEIRA_FULL_SMC_EXE names, and a code invalidation re-entered by the
+# thread that write-holds CodeInvalidationMutex runs under that hold instead
+# of waiting on itself (MADEIRA_FEX_INVAL_NESTED=1). Stardew Valley.
+python3 "$R/tools/patch-fex-ios-full-smc-exe.py" "$R/FEX"
+python3 "$R/tools/patch-fex-ios-inval-nested.py" "$R/FEX"
 build
 git -C FEX checkout -- "$CPUF" Source/Windows/ARM64EC/Module.cpp Source/Windows/ARM64EC/Module.S Source/Windows/Common/InvalidationTracker.h Source/Windows/Common/InvalidationTracker.cpp FEXCore/Source/Interface/IR/PassManager.cpp Source/Windows/Common/Priv.h FEXCore/Source/Interface/Core/CPUID.cpp Source/Windows/ARM64EC/IosJitAlias.cpp FEXCore/include/FEXCore/Core/CoreState.h FEXCore/Source/Interface/Core/JIT/BranchOps.cpp Source/Windows/ARM64EC/libarm64ecfex.def FEXCore/include/FEXCore/Debug/InternalThreadState.h FEXCore/Source/Interface/Core/Core.cpp Source/Windows/Common/CallRetStack.h FEXCore/Source/Interface/Core/Dispatcher/Dispatcher.cpp FEXCore/Source/Interface/Core/ArchHelpers/Arm64Emitter.h FEXCore/Source/Interface/Core/ArchHelpers/Arm64Emitter.cpp FEXCore/Source/Interface/Core/JIT/JIT.cpp
 git -C FEX/External/rpmalloc checkout -- rpmalloc/rpmalloc.c

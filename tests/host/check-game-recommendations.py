@@ -54,8 +54,8 @@ for m in re.finditer(r'static let (\w+) = GameRecommendation\(\n\s*id: "([^"]+)"
     lines = [line[len(indent):] if line.startswith(indent) else line for line in body.split('\n')]
     presets[ident] = dict(name=name, title=title, version=int(version), lines=lines, switches=' '.join(switches.split()))
 assert set(presets) == {'rdr2-steam', 'gta5e-steam', 'gta5e-other', 'ghost-of-tsushima', 'god-of-war',
-                        'horizon-zero-dawn'}, sorted(presets)
-assert 'static let all = [rdr2Steam, gta5EnhancedSteam, gta5EnhancedOther, ghostOfTsushima, godOfWar, horizonZeroDawn]' in lists_src
+                        'horizon-zero-dawn', 'stardew-valley'}, sorted(presets)
+assert 'static let all = [rdr2Steam, gta5EnhancedSteam, gta5EnhancedOther, ghostOfTsushima, godOfWar, horizonZeroDawn,\n                      stardewValley]' in lists_src
 
 catalog_keys = set(re.findall(r'ConfigOption\(key: "([^"]+)"', catalog))
 for ident, p in presets.items():
@@ -78,7 +78,7 @@ for ident, p in presets.items():
         if key != 'env.WINEDLLOVERRIDES':
             named = named.replace('socialclubhelper.exe', '')
         assert 'socialclub' not in named and 'MADEIRA_DLL_LOCAL' not in line, (ident, line)
-print('PASS: six lists, two comment lines each, no key twice, every non-env key in the settings catalog, no Social Club DLL lines')
+print('PASS: seven lists, two comment lines each, no key twice, every non-env key in the settings catalog, no Social Club DLL lines')
 
 # Red Dead Redemption 2 from Steam: the owner's list of 2026-10-09 (build 463), line for line,
 # plus the lines of build 466's test (version 2), build 467's (version 3), build 470's (version 4) and
@@ -206,6 +206,13 @@ assert got['lines'][2:] == ['dxil-tess = 0', 'sampler-reduction = 3', 'ind-count
 assert got['version'] == 2, got['version']
 assert not any(line.startswith(('view-census', 'typed-view-align', 'typed-view-shadow'))
                for p in presets.values() if p is not hzd and p is not got for line in p['lines']), 'the typed-view fix is HZD\'s and GoT\'s only'
+# Stardew Valley, version 1 (stardew-fix build): the full code validator in the game's own process
+# only, and nested code invalidations under the holder's lock.
+sdv = presets['stardew-valley']
+assert sdv['lines'][2:] == ['env.MADEIRA_FULL_SMC_EXE = Stardew Valley.exe', 'env.MADEIRA_FEX_INVAL_NESTED = 1'], sdv['lines']
+assert sdv['version'] == 1 and sdv['switches'] == 'display: "fit"', sdv
+assert not any(line.startswith(('env.MADEIRA_FULL_SMC_EXE', 'env.MADEIRA_FEX_INVAL_NESTED', 'env.FEX_SMCCHECKS'))
+               for p in presets.values() if p is not sdv for line in p['lines']), 'the validator switches are Stardew Valley\'s only'
 print('PASS: RDR2 (Steam) is the owner\'s 463 list plus the 466, 467, 470, 472, 475, 476 and 480 test lines, line for line with its switches (720 lines of this screen); GTA V Enhanced and GoW keep their tested lines; Horizon Zero Dawn has build 491\'s proven list plus build 494\'s frame-rate switches (v16), GoT the typed-view fix (v2)')
 
 # Recognition: Steam by App ID or steamapps\common folder; everything else by the program's name.
@@ -215,6 +222,8 @@ assert 'let installFolder = last == steamFolder ? steamFolder : nil' in match
 assert 'installFolder == "red dead redemption 2"' in match and 'installFolder == "grand theft auto v enhanced"' in match
 assert 'case "ghostoftsushima.exe":' in match and 'case "gow.exe":' in match and 'case "rdr2.exe", "playrdr2.exe":' in match
 assert 'case "horizonzerodawn.exe":\n            return horizonZeroDawn' in match and 'if steamAppID == horizonZeroDawnAppID { return horizonZeroDawn }' in match
+assert 'stardewValleyAppID = 413150' in lists_src and 'case "stardew valley.exe":\n            return stardewValley' in match
+assert 'if steamAppID == stardewValleyAppID || installFolder == "stardew valley" { return stardewValley }' in match
 assert 'case "playgtav.exe", "gta5_enhanced.exe":' in match and 'return inSteam ? gta5EnhancedSteam : gta5EnhancedOther' in match
 assert 'guard fileExists(folder + "\\\\GTA5_Enhanced.exe") else { return nil }' in match and 'default:\n            return nil' in match
 
@@ -382,6 +391,9 @@ check(id(#"C:\Horizon - Zero Down CE\HorizonZeroDawn.exe"#) == "horizon-zero-daw
 check(id(steam + #"\Horizon Zero Dawn\HorizonZeroDawn.exe"#) == "horizon-zero-dawn", "its program inside Steam")
 check(id(steam + #"\Horizon Zero Dawn"#, 1151640) == "horizon-zero-dawn", "Horizon Zero Dawn from Steam")
 check(id(#"C:\Games\Horizon Zero Dawn Remastered\HorizonZeroDawnRemastered.exe"#) == "none", "the remaster is another game")
+check(id(steam + #"\Stardew Valley"#, 413150) == "stardew-valley", "Stardew Valley from Steam")
+check(id(steam + #"\Stardew Valley"#) == "stardew-valley", "Stardew Valley by its steamapps\\common folder")
+check(id(#"C:\GOG Games\Stardew Valley\Stardew Valley.exe"#) == "stardew-valley", "Stardew Valley by its program")
 check(id(#"C:\Games\Foo\foo.exe"#) == "none" && id(steam + #"\Portal 2"#, 620) == "none", "other games")
 check(id("") == "none" && id("C:\\") == "none", "no path")
 print("PASS: Steam games by App ID or steamapps\\common folder, GTA V Enhanced inside and outside Steam, GoT, GoW and Horizon Zero Dawn by their programs, others none")
