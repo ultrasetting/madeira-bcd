@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C1000009 /* CouchOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000009 /* CouchOrientation.swift */; };
+		C1000001 /* CouchGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000001 /* CouchGame.swift */; };
+		C1000002 /* CouchFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000002 /* CouchFocus.swift */; };
+		C1000003 /* CouchImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000003 /* CouchImage.swift */; };
+		C1000004 /* CouchParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000004 /* CouchParts.swift */; };
+		C1000005 /* CouchHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000005 /* CouchHomeView.swift */; };
+		C1000006 /* CouchGamePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000006 /* CouchGamePage.swift */; };
+		C1000007 /* CouchGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000007 /* CouchGuide.swift */; };
+		C1000008 /* CouchModeHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2000008 /* CouchModeHost.swift */; };
 		1686FBF2209ABE0E71A12807 /* MadeiraMemoryHost.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D80FB04E72418784BED70CF4 /* MadeiraMemoryHost.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		33A1199863C98CF2679931F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76CE67ADF1049F28147EA12C /* Foundation.framework */; };
 		5271C4AE571BDF56B9E51EAA /* MemoryPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2027C80DC6F4BF37B7522656 /* MemoryPool.m */; };
@@ -230,6 +239,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C2000009 /* CouchOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchOrientation.swift"; sourceTree = "<group>"; };
+		C2000001 /* CouchGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchGame.swift"; sourceTree = "<group>"; };
+		C2000002 /* CouchFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchFocus.swift"; sourceTree = "<group>"; };
+		C2000003 /* CouchImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchImage.swift"; sourceTree = "<group>"; };
+		C2000004 /* CouchParts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchParts.swift"; sourceTree = "<group>"; };
+		C2000005 /* CouchHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchHomeView.swift"; sourceTree = "<group>"; };
+		C2000006 /* CouchGamePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchGamePage.swift"; sourceTree = "<group>"; };
+		C2000007 /* CouchGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchGuide.swift"; sourceTree = "<group>"; };
+		C2000008 /* CouchModeHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CouchModeHost.swift"; sourceTree = "<group>"; };
 		2027C80DC6F4BF37B7522656 /* MemoryPool.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MemoryPool.m; sourceTree = "<group>"; };
 		32607841304656C675DB52CF /* MemoryHostTest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MemoryHostTest.h; sourceTree = "<group>"; };
 		36023A5C635793C3C00F4FA5 /* MemoryHostProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MemoryHostProtocol.h; sourceTree = "<group>"; };
@@ -483,6 +501,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C4000001 /* CouchMode */ = {
+			isa = PBXGroup;
+			children = (
+				C2000001 /* CouchGame.swift */,
+				C2000002 /* CouchFocus.swift */,
+				C2000003 /* CouchImage.swift */,
+				C2000004 /* CouchParts.swift */,
+				C2000005 /* CouchHomeView.swift */,
+				C2000006 /* CouchGamePage.swift */,
+				C2000007 /* CouchGuide.swift */,
+				C4000002 /* Live */,
+			);
+			path = CouchMode;
+			sourceTree = "<group>";
+		};
+		C4000002 /* Live */ = {
+			isa = PBXGroup;
+			children = (
+				C2000008 /* CouchModeHost.swift */,
+				C2000009 /* CouchOrientation.swift */,
+			);
+			path = Live;
+			sourceTree = "<group>";
+		};
 		4CB8E97907DE27E92F0752AD /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -514,6 +556,7 @@
 		A4000002 /* Madeira */ = {
 			isa = PBXGroup;
 			children = (
+				C4000001 /* CouchMode */,
 				A2000520 /* MadeiraDock.swift */,
 				A2000521 /* MadeiraDockView.swift */,
 				A2000650 /* DockStartScreen.swift */,
@@ -920,6 +963,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1000001 /* CouchGame.swift in Sources */,
+				C1000002 /* CouchFocus.swift in Sources */,
+				C1000003 /* CouchImage.swift in Sources */,
+				C1000004 /* CouchParts.swift in Sources */,
+				C1000005 /* CouchHomeView.swift in Sources */,
+				C1000006 /* CouchGamePage.swift in Sources */,
+				C1000007 /* CouchGuide.swift in Sources */,
+				C1000008 /* CouchModeHost.swift in Sources */,
+				C1000009 /* CouchOrientation.swift in Sources */,
 				A1000520 /* MadeiraDock.swift in Sources */,
 				A1000521 /* MadeiraDockView.swift in Sources */,
 				A1000650 /* DockStartScreen.swift in Sources */,

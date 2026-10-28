@@ -3,6 +3,9 @@ import SwiftUI
 
 @main
 struct MadeiraApp: App {
+    // Couch mode holds the app in landscape (CouchMode/Live/CouchOrientation.swift).
+    @UIApplicationDelegateAdaptor(MadeiraAppDelegate.self) private var appDelegate
+
     init() {
         // madeira-bcd: the Metal Performance HUD's performance insights (the
         // notes that stack up left of its panel: shader compiles, similar render
