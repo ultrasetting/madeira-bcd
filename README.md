@@ -161,6 +161,7 @@ proposing anything to it.
 - **spitefulowl** ([@spitefulowl](https://github.com/spitefulowl)): Wine and FEX runtime fixes, DXMT texture and memory fixes, audio, the swap tier, and library launch options
 - **meshoklv** ([@meshoklv](https://github.com/meshoklv)): controller fixes for games that ship their own XInput or need focus, touch taps that stay off the mouse, and a crash-guard fix
 - **TheHadesc** ([@TheHadesc](https://github.com/TheHadesc)): Madeira Dock starts for games whose Steam launch entries do not start at zero, and a touch gamepad that survives the in-game keyboard
+- **SoSerious194** ([@SoSerious194](https://github.com/SoSerious194)): Couch mode, the controller-first full-screen library (from [SoSerious194/Madeira](https://github.com/SoSerious194/Madeira))
 
 Madeira is built on [Wine](https://www.winehq.org/), [FEX-Emu](https://github.com/FEX-Emu/FEX),
 [DXMT](https://github.com/3Shain/DXMT) by Feifan He (3Shain) with the Direct3D 9

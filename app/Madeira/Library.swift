@@ -2907,6 +2907,7 @@ struct LibraryView: View {
                     Text("Flowing chrome on the bars and the Desktop button. Off, they use the system's Liquid Glass.")
                 }
             }
+            if settingsShow("couch mode", "controller", "big picture", "tv") { CouchModeSettingsSection() }
             if settingsShow("appearance", "grid", "library", "new", "zoom", "pinch", "haptics", "cards") {
                 Section {
                     Toggle("New library grid", isOn: $zoomableGrid)

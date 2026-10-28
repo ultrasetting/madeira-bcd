@@ -121,7 +121,10 @@ enum OnboardingRules {
     /// The revision this device had seen when setup opened by itself after an update (only
     /// the pages added since are shown); 0 for a new install and for Run setup again.
     @Published private(set) var since = 0
-    var steps: [Step] { steps(since: since) }
+    var steps: [Step] { dockClientOnly ? [.welcome, .dockClient, .done] : steps(since: since) }
+    /// Couch mode's Play opens setup with only Madeira Dock's client page when Valve's
+    /// client is missing (offerDockClient).
+    private var dockClientOnly = false
     private func steps(since: Int) -> [Step] {
         OnboardingRules.steps(signIn: SteamSignIn.isEnabled, dock: MadeiraDock.enabled, localDevVPN: offerLocalDevVPN,
                               wineMono: offerWineMono, since: since)
@@ -143,6 +146,14 @@ enum OnboardingRules {
 
     /// Settings › Steam › Run setup again.
     func rerun() { open(reason: "settings", since: 0) }
+
+    /// Setup with only Madeira Dock's client page (Couch mode's Play).
+    func offerDockClient() {
+        guard MadeiraDock.enabled else { return }
+        dockClientOnly = true
+        open(reason: "dock-client", since: 0)
+        if !presented { dockClientOnly = false }   // a session is running: not now
+    }
 
     private func open(reason: String, since: Int) {
         // Never over a running session.
@@ -181,6 +192,7 @@ enum OnboardingRules {
     private func close() {
         EndedSessionSurface.hide(reason: "setup-closed")
         presented = false
+        dockClientOnly = false
     }
 }
 

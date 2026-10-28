@@ -1346,8 +1346,12 @@ struct ContentView: View {
                     sessionBody
                         .navigationBarHidden(true)
                 } else if library.enabled {
+                    // Couch mode, when it is on, shows instead of the library (CouchMode/Live).
+                    // LibraryView's lines are upstream's, unchanged (tests/host/check-onboarding.py).
+                    CouchModeSwitch(play: launchLibraryEntry, enableJIT: enableJIT) {
                     LibraryView(play: launchLibraryEntry, enableJIT: enableJIT,
                                 startDock: { startDock($0, compactPool: $1) })
+                    }
                 } else {
                     developerBody
                 }
